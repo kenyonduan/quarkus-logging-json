@@ -30,6 +30,12 @@ public interface Config {
     ConfigFile file();
 
     /**
+     * Configuration properties for syslog formatter.
+     */
+    @WithName("syslog")
+    ConfigSyslog syslog();
+
+    /**
      * Configuration properties to customize fields
      */
     FieldsConfig fields();

@@ -31,6 +31,11 @@ public class LoggingJsonRecorder {
         return initializeJsonLogging(config.file(), config, jsonFactory);
     }
 
+    public RuntimeValue<Optional<Formatter>> initializeSyslogJsonLogging(Config config,
+           JsonFactory jsonFactory) {
+        return initializeJsonLogging(config.syslog(), config, jsonFactory);
+    }
+
     public RuntimeValue<Optional<Formatter>> initializeJsonLogging(ConfigFormatter formatter, Config config,
             JsonFactory jsonFactory) {
         if (formatter == null || !formatter.isEnabled()) {

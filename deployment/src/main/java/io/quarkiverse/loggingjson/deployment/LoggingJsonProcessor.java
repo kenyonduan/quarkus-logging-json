@@ -2,6 +2,7 @@ package io.quarkiverse.loggingjson.deployment;
 
 import java.util.Collection;
 
+import io.quarkus.deployment.builditem.*;
 import org.jboss.jandex.ClassInfo;
 
 import io.quarkiverse.loggingjson.JsonFactory;
@@ -16,10 +17,6 @@ import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.annotations.ExecutionTime;
 import io.quarkus.deployment.annotations.Record;
-import io.quarkus.deployment.builditem.CombinedIndexBuildItem;
-import io.quarkus.deployment.builditem.FeatureBuildItem;
-import io.quarkus.deployment.builditem.LogConsoleFormatBuildItem;
-import io.quarkus.deployment.builditem.LogFileFormatBuildItem;
 
 class LoggingJsonProcessor {
 
@@ -42,6 +39,13 @@ class LoggingJsonProcessor {
     LogFileFormatBuildItem setUpFileFormatter(Capabilities capabilities, LoggingJsonRecorder recorder,
             Config config) {
         return new LogFileFormatBuildItem(recorder.initializeFileJsonLogging(config, jsonFactory(capabilities)));
+    }
+
+    @BuildStep
+    @Record(ExecutionTime.RUNTIME_INIT)
+    LogSyslogFormatBuildItem setUpSyslogFormatter(Capabilities capabilities, LoggingJsonRecorder recorder,
+            Config config) {
+        return new LogSyslogFormatBuildItem(recorder.initializeSyslogJsonLogging(config, jsonFactory(capabilities)));
     }
 
     private JsonFactory jsonFactory(Capabilities capabilities) {
